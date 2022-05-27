@@ -8,6 +8,7 @@ enum class Gender
     None
 };
 
+//operator wypisania gender << i najpierw dopisac test na female
 class Student
 {
 public:

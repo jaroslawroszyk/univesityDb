@@ -26,6 +26,7 @@ TEST_F(DatabaseTest, DisplayNonEmptyDatabase)
     };
     db.add(adam);
     // check adding the same person twice
+    
     auto content = db.show();
     auto expected = "Adam Nowak; ul.Bogatynska 12 00-201 Radom; 123456; 12345678912; Male";
     EXPECT_EQ(content,expected);
