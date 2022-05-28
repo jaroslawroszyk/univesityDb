@@ -2,9 +2,26 @@
 #include <iostream>
 #include <string>
 
-void Database::add(const Student &s)
+template<typename T>
+bool hasDuplicates(const std::vector<T> &arr)
 {
-   students.push_back(s);
+    for (auto it = arr.begin(); it != arr.end(); ++it)
+        if (std::find(std::next(it) , arr.end() , *it) != arr.end())
+            return true;
+    return false;
+}
+
+std::vector<Student> Database::add(const Student &s)
+{
+    if (students.empty())
+    {
+        if (hasDuplicates(students))
+            return students;
+        else if (!hasDuplicates(students))
+            students.push_back(s);
+    }
+
+    return students;
 }
 
 void Database::display() const
@@ -14,8 +31,8 @@ void Database::display() const
 
 std::string Database::show() const
 {
-    std::string result = "";
-    for (auto &&student : students)
+    std::string result{};
+    for (auto &&student: students)
     {
         result += student.show();
     }

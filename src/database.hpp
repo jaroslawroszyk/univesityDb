@@ -1,11 +1,12 @@
 #pragma once
 #include <vector>
 #include "student.hpp"
+#include "Gender.h"
 
 class Database
 {
 public:
-    void add(const Student &s);
+    std::vector<Student> add(const Student &s);
     void display() const;
     std::string show() const;
 private:

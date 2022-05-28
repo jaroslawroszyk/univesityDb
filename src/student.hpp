@@ -1,18 +1,16 @@
 #pragma once
+#include "Gender.h"
 #include <string>
+#include <iostream>
+#include <vector>
 
-enum class Gender
-{
-    Male,
-    Female,
-    None
-};
-
-//operator wypisania gender << i najpierw dopisac test na female
 class Student
 {
 public:
-    Student(std::string name, std::string surname, std::string addres, int indexNumber, std::string Pesel, Gender gender);
+    Student(std::string name , std::string surname , std::string addres , int indexNumber , std::string Pesel ,
+            Gender gender);
+
+    bool operator==(const Student &other) const;
     std::string show() const;
 
 private:

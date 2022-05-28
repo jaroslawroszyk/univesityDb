@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SOURCES
 src/database.cpp 
 src/student.cpp)
-set(FLAGS -Wall -Wextra -Wpedantic -std=c++20)
+set(FLAGS -Wall -Wextra -Werror -Wpedantic -std=c++20)
 
 add_executable(${PROJECT_NAME} ${SOURCES} src/main.cpp src/database.cpp src/student.cpp)
 target_compile_options(${PROJECT_NAME} PRIVATE ${FLAGS})
