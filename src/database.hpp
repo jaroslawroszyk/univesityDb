@@ -9,6 +9,7 @@ public:
     std::vector<Student> add(const Student &s);
     void display() const;
     std::string show() const;
+//    bool searchBySurname(Database s,std::string);
 private:
     std::vector<Student> students;
 };

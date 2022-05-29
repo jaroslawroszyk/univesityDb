@@ -12,7 +12,7 @@ public:
 
     bool operator==(const Student &other) const;
     std::string show() const;
-
+//    std::string getSurname() const { return surname;}
 private:
     std::string name;
     std::string surname;

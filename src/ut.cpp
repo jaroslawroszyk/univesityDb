@@ -86,3 +86,41 @@ TEST_F(DatabaseTest,DisplayNoneStudent)
     EXPECT_EQ(content,expected);
     db.display();
 }
+
+//TEST_F(DatabaseTest,SearchBySurname)
+//{
+//    Student Andrzej{
+//            "Andrzej",
+//            "Kowlaski",
+//            "Zubra 5 00-120 Sosnowiec",
+//            69517,
+//            "15154141",
+//            Gender::Male
+//    };
+//    db.add(Andrzej);
+//    EXPECT_TRUE(db.searchBySurname("Kowalski"));
+//
+//    auto content = db.show();
+//    auto expected = "Andrzej Kowlaski; Zubra 5 00-120 Sosnowiec; 69517; 15154141; Male";
+//    EXPECT_EQ(content,expected);
+//    db.display();
+//}
+
+//TEST_F(DatabaseTest,CantFindStudentWithGivenSurname)
+//{
+//    Student Andrzej{
+//            "Andrzej",
+//            "Pawlak",
+//            "Zubra 5 00-120 Sosnowiec",
+//            69517,
+//            "15154141",
+//            Gender::Male
+//    };
+//    db.add(Andrzej);
+//    EXPECT_FALSE(db.searchBySurname("Kowalski"));
+//
+//    auto content = db.show();
+//    auto expected = "Andrzej Pawlak; Zubra 5 00-120 Sosnowiec; 69517; 15154141; Male";
+//    EXPECT_EQ(content,expected);
+//    db.display();
+//}

@@ -38,3 +38,9 @@ std::string Database::show() const
     }
     return result;
 }
+
+//bool Database::searchBySurname(Database s,std::string str)
+//{
+//    if(s)
+//    return true;
+//}
