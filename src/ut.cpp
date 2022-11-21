@@ -2,6 +2,39 @@
 #include "database.hpp"
 #include "student.hpp"
 #include "Gender.h"
+#include "PeselChecker.hpp"
+#include <tuple>
+
+namespace
+{
+    const std::vector<Student> student
+    {
+    	{
+    		"Adam",
+    		"Nowak",
+    		"ul.Bogatynska 12 00-201 Radom",
+    		123456,
+    		"12345678912",
+    		Gender::Male
+    	},
+        {
+            "Ania",
+            "Kos",
+            "ul.Bogatynska 12 00-201 Radom",
+            6951,
+            "1695678912",
+            Gender::Female
+        }
+    };
+
+    void fillDatabase(Database &db)
+    {
+        for (const auto &st : student)
+        {
+            db.add(st);
+        }
+    }
+} // namespace
 
 struct DatabaseTest : ::testing::Test
 {
@@ -12,46 +45,28 @@ TEST_F(DatabaseTest, DisplayEmtyDatabase)
 {
     auto content = db.show();
     auto expected = "";
-    EXPECT_EQ(content,expected);
+    EXPECT_EQ(content, expected);
 }
 
 TEST_F(DatabaseTest, DisplayNonEmptyDatabase)
 {
-     Student adam{
-        "Adam",
-        "Nowak",
-        "ul.Bogatynska 12 00-201 Radom",
-        123456,
-        "12345678912",
-        Gender::Male
-    };
-    db.add(adam);
-
+    fillDatabase(db);
     auto content = db.show();
     auto expected = "Adam Nowak; ul.Bogatynska 12 00-201 Radom; 123456; 12345678912; Male";
-    EXPECT_EQ(content,expected);
+    EXPECT_EQ(content, expected);
     db.display();
 }
 
-TEST_F(DatabaseTest,CheckDuplicates)
+TEST_F(DatabaseTest, CheckDuplicates)
 {
-    Student adam{
-            "Adam",
-            "Nowak",
-            "ul.Bogatynska 12 00-201 Radom",
-            123456,
-            "12345678912",
-            Gender::Male
-    };
-    db.add(adam);
-    db.add(adam);
-
+    fillDatabase(db);
+    fillDatabase(db);
     auto content = db.show();
     auto expected = "Adam Nowak; ul.Bogatynska 12 00-201 Radom; 123456; 12345678912; Male";
-    EXPECT_EQ(content,expected);
+    EXPECT_EQ(content, expected);
 }
 
-TEST_F(DatabaseTest,DisplayFemaleStudent)
+TEST_F(DatabaseTest, DisplayFemaleStudent)
 {
     Student Ania{
             "Ania",
@@ -69,7 +84,7 @@ TEST_F(DatabaseTest,DisplayFemaleStudent)
     db.display();
 }
 
-TEST_F(DatabaseTest,DisplayNoneStudent)
+TEST_F(DatabaseTest, DisplayNoneStudent)
 {
     Student none{
             "none",
@@ -80,47 +95,45 @@ TEST_F(DatabaseTest,DisplayNoneStudent)
             Gender::None
     };
     db.add(none);
-
-    auto content = db.show();
-    auto expected = "none none; none; 1111; 24142; None";
-    EXPECT_EQ(content,expected);
-    db.display();
 }
 
-//TEST_F(DatabaseTest,SearchBySurname)
-//{
-//    Student Andrzej{
-//            "Andrzej",
-//            "Kowlaski",
-//            "Zubra 5 00-120 Sosnowiec",
-//            69517,
-//            "15154141",
-//            Gender::Male
-//    };
-//    db.add(Andrzej);
-//    EXPECT_TRUE(db.searchBySurname("Kowalski"));
-//
-//    auto content = db.show();
-//    auto expected = "Andrzej Kowlaski; Zubra 5 00-120 Sosnowiec; 69517; 15154141; Male";
-//    EXPECT_EQ(content,expected);
-//    db.display();
-//}
+TEST_F(DatabaseTest, SearchBySurname)
+{
+    fillDatabase(db);
+    EXPECT_TRUE(db.searchBySurname("Nowak"));
+}
 
-//TEST_F(DatabaseTest,CantFindStudentWithGivenSurname)
-//{
-//    Student Andrzej{
-//            "Andrzej",
-//            "Pawlak",
-//            "Zubra 5 00-120 Sosnowiec",
-//            69517,
-//            "15154141",
-//            Gender::Male
-//    };
-//    db.add(Andrzej);
-//    EXPECT_FALSE(db.searchBySurname("Kowalski"));
-//
-//    auto content = db.show();
-//    auto expected = "Andrzej Pawlak; Zubra 5 00-120 Sosnowiec; 69517; 15154141; Male";
-//    EXPECT_EQ(content,expected);
-//    db.display();
-//}
+TEST_F(DatabaseTest, CantFindStudentWithGivenSurname)
+{
+    fillDatabase(db);
+    EXPECT_FALSE(db.searchBySurname("Piot"));
+}
+
+TEST_F(DatabaseTest, SearchByName)
+{
+    fillDatabase(db);
+    EXPECT_TRUE(db.searchByName("Adam"));
+}
+
+TEST_F(DatabaseTest, SearchByIndexAdam)
+{
+    fillDatabase(db);
+    EXPECT_TRUE(db.searchByIndex(123456));
+}
+
+struct PeselFixture : public ::testing::TestWithParam<std::tuple<std::string, bool>>
+{
+};
+
+TEST_P(PeselFixture, checkCorrectPesels)
+{
+    auto [pesel, expected] = GetParam();
+    EXPECT_EQ(checkPesel(pesel), expected);
+}
+
+INSTANTIATE_TEST_CASE_P(
+    PeselFixtureTests,
+    PeselFixture,
+    ::testing::Values(
+        std::make_tuple("24090833676", true),
+        std::make_tuple("12345678901", false)));

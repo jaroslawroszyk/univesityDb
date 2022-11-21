@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.22.1)
 project(studentDb)
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCES
 src/database.cpp 
-src/student.cpp)
+src/student.cpp
+src/PeselChecker.cpp)
 set(FLAGS -Wall -Wextra -Werror -Wpedantic -std=c++20)
 
 add_executable(${PROJECT_NAME} ${SOURCES} src/main.cpp src/database.cpp src/student.cpp)

@@ -11,8 +11,10 @@ public:
             Gender gender);
 
     bool operator==(const Student &other) const;
-    std::string show() const;
-//    std::string getSurname() const { return surname;}
+    [[nodiscard]] std::string show() const;
+    [[nodiscard]] const std::string& getName() const { return name;}
+    [[nodiscard]] const std::string& getSurname() const { return surname;}
+    [[nodiscard]] int getIndex() const { return indexNumber; }
 private:
     std::string name;
     std::string surname;
