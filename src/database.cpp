@@ -1,43 +1,52 @@
-#include "database.hpp"
+#include "../include/database.hpp"
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include <array>
+#include <ranges>
 
-template <typename T>
-bool hasDuplicates(const std::vector<T> &arr)
+namespace
 {
-    for (auto it = arr.begin(); it != arr.end(); ++it)
-        if (std::find(std::next(it), arr.end(), *it) != arr.end())
-            return true;
-    return false;
-}
-
-std::vector<Student> Database::add(const Student &s)
-{
-    if (students.empty())
+    template <typename T>
+    bool hasDuplicates(const std::vector<T> &arr)
     {
-        if (hasDuplicates(students))
-            return students;
-        else if (!hasDuplicates(students))
-            students.push_back(s);
+        for (auto it = arr.begin(); it != arr.end(); ++it)
+            if (std::find(std::next(it), arr.end(), *it) != arr.end())
+                return true;
+        return false;
     }
 
-    return students;
-}
-
-void Database::display() const
-{
-    std::cout << show();
-}
-
-std::string Database::show() const
-{
-    std::string result{};
-    for (auto &&student : students)
+    template <typename T>
+    void print(const T &vec)
     {
-        result += student.show();
+        for (const auto &el : vec)
+        {
+            std::cout << el << ' ';
+        }
     }
+}
+
+void Database::add(const Student &student)
+{
+    if (not students.empty() or not hasDuplicates(students))
+    {
+        students.push_back(student);
+    }
+}
+
+void Database::add(Student &&s)
+{
+    students.push_back(s);
+}
+
+std::vector<Student> Database::show() const
+{
+    std::vector<Student> result{};
+    for (const auto &student : students)
+    {
+        result.push_back(student);
+    }
+    print(result);
+
     return result;
 }
 
@@ -50,16 +59,33 @@ sort by surname
 
 bool Database::searchByName(const std::string &name)
 {
-    return std::ranges::find(students, name, &Student::getName) != students.end();
+    for (const auto &student : students)
+    {
+        if (student.getName() == name)
+            return true;
+    }
+    return false;
+        // return std::ranges::find(students, name, &Student::getName) != students.end();
 }
-
 
 bool Database::searchBySurname(const std::string &surname) const
 {
-  return std::ranges::find(students, surname, &Student::getSurname) != students.end();
+    for (const auto &student : students)
+    {
+        if (student.getSurname() == surname)
+            return true;
+    }
+    return false;
+    //   return std::ranges::find(students, surname, &Student::getSurname) != students.end();
 }
 
 bool Database::searchByIndex(int index)
 {
-    return std::ranges::find(students, index, &Student::getIndex) != students.end();
+    for (const auto &student : students)
+    {
+        if (student.getIndex() == index)
+            return true;
+    }
+    return false;
+    // return std::ranges::find(students, index, &Student::getIndex) != students.end();
 }

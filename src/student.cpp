@@ -1,6 +1,6 @@
 #include <tuple>
-#include "student.hpp"
-#include "Gender.h"
+#include "../include/student.hpp"
+#include "../include/Gender.hpp"
 
 Student::Student(
         std::string name ,
@@ -20,6 +20,12 @@ std::string Student::show() const
 }
 
 bool Student::operator==(const Student &other) const
+{
+    return std::tie(name , surname , addres , indexNumber , Pesel , gender) ==
+           std::tie(other.name , other.surname , other.addres , other.indexNumber , other.Pesel , other.gender);
+}
+
+bool Student::operator==(const Student &&other) const
 {
     return std::tie(name , surname , addres , indexNumber , Pesel , gender) ==
            std::tie(other.name , other.surname , other.addres , other.indexNumber , other.Pesel , other.gender);

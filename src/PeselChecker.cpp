@@ -1,4 +1,4 @@
-#include "PeselChecker.hpp"
+#include "../include/PeselChecker.hpp"
 
 bool checkPesel(std::string pesel)
 {
