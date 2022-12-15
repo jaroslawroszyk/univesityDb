@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24.3)
+cmake_minimum_required(VERSION 3.23.2)
 project(studentDb)
 set(CMAKE_CXX_STANDARD 20)
 
@@ -23,7 +23,7 @@ find_package(GTest REQUIRED)
 
 add_library(${MODULE_NAME} STATIC ${SOURCES} ${HEADERS}) 
 
-add_executable(${PROJECT_NAME}-ut  ${SOURCES} src/ut.cpp)
+add_executable(${PROJECT_NAME}-ut  ${SOURCES} uts/ut.cpp)
 target_compile_options(${PROJECT_NAME}-ut PRIVATE ${FLAGS})
 target_link_libraries(${PROJECT_NAME}-ut  GTest::gmock GTest::gmock_main
         GTest::gtest GTest::gtest_main
