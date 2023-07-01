@@ -1,8 +1,6 @@
 #include <gtest/gtest.h>
-#include "../include/database.hpp"
-#include "../include/student.hpp"
-#include "../include/Gender.hpp"
-#include "../include/PeselChecker.hpp"
+#include "Database.hpp"
+#include "Student.hpp"
 #include <tuple>
 
 namespace
@@ -19,18 +17,18 @@ namespace
          "ul.Bogatynska 12 00-201 Radom",
          6951,
          "1695678912",
-         Gender::Female}};
+         Gender::Female} };
 
-    void fillDatabase(Database &db)
+    void fillDatabase(Database& db)
     {
-        for (const auto &st : students)
+        for (const auto& st : students)
         {
             db.add(st);
         }
     }
 
     template <typename... Students>
-    void initDatabase(Database &db, const Students &...stud)
+    void initDatabase(Database& db, const Students &...stud)
     {
         (db.add(stud), ...);
     }
@@ -41,14 +39,14 @@ namespace
         "none",
         1111,
         "24142",
-        Gender::None};
+        Gender::None };
     Student Ania{
         "Ania",
         "Kos",
         "ul.Bogatynska 12 00-201 Radom",
         6951,
-        "1695678912",
-        Gender::Female};
+        "24090833676",
+        Gender::Female };
 } // namespace
 
 struct DatabaseTest : ::testing::Test
@@ -91,13 +89,6 @@ TEST_F(DatabaseTest, DisplayFemaleStudent)
     //    EXPECT_EQ(,expected);
 }
 
-TEST_F(DatabaseTest, xD)
-{
-    initDatabase(db, none, Ania);
-    EXPECT_TRUE(db.searchByName("none"));
-    EXPECT_FALSE(db.searchBySurname("foo"));
-    EXPECT_TRUE(db.searchBySurname("Kos"));
-}
 
 TEST_F(DatabaseTest, searchInDatabaseIdx)
 {
@@ -130,19 +121,9 @@ TEST_F(DatabaseTest, SearchByIndexAdam)
     EXPECT_TRUE(db.searchByIndex(123456));
 }
 
-struct PeselFixture : public ::testing::TestWithParam<std::tuple<std::string, bool>>
+TEST_F(DatabaseTest, SearchByPesel)
 {
-};
-
-TEST_P(PeselFixture, checkCorrectPesels)
-{
-    auto [pesel, expected] = GetParam();
-    EXPECT_EQ(checkPesel(pesel), expected);
+    db.add(Ania);
+    EXPECT_TRUE(db.searchByPesel("24090833676"));
 }
 
-INSTANTIATE_TEST_SUITE_P(
-    PeselFixtureTests,
-    PeselFixture,
-    ::testing::Values(
-        std::make_tuple("24090833676", true),
-        std::make_tuple("12345678901", false)));

@@ -1,19 +1,22 @@
-#include "../include/PeselChecker.hpp"
+#include "PeselChecker.hpp"
+#include <vector>
 
 bool checkPesel(std::string pesel)
 {
-    const std::string &listValidation = "1379137913";
-    int sum = 0;
     if (pesel.size() != 11)
         return false;
 
-    for (auto i = 0; i < 10; i++)
+    std::vector<int> weights = { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
+
+    int sum = 0;
+    for (size_t i = 0; i < 10; i++)
     {
-        sum += ((pesel[i] - '0') * (listValidation[i] - '0')) % 10;
+        int digit = pesel[i] - '0';
+        sum += digit * weights[i];
     }
-    if (sum > 10)
-        sum = sum % 10;
-    if (sum)
-        sum = 10 - sum;
-    return sum == (pesel[10] - '0');
+
+    int controlDigit = (10 - (sum % 10)) % 10;
+    int lastDigit = pesel[10] - '0';
+
+    return controlDigit == lastDigit;
 }
