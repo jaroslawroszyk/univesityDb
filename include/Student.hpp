@@ -7,30 +7,25 @@
 class Student
 {
 public:
-    Student(std::string name, std::string surname, std::string addres, int indexNumber, std::string Pesel,
-        Gender gender);
+    Student(std::string, std::string, std::string, int, std::string, Gender);
 
     bool operator==(const Student& other) const;
     bool operator==(const Student&& other) const;
     [[nodiscard]] std::string show() const;
-    [[nodiscard]] const std::string& getName() const { return name; }
-    [[nodiscard]] const std::string& getSurname() const { return surname; }
-    [[nodiscard]] int getIndex() const { return indexNumber; }
-    [[nodiscard]] const std::string& getPesel() const { return Pesel; }
+    [[nodiscard]] const std::string& getName() const;
+    [[nodiscard]] const std::string& getSurname() const;
+    [[nodiscard]] const std::string& getAdress() const;
+    [[nodiscard]] int getIndex() const;
+    [[nodiscard]] const std::string& getPesel() const;
+    [[nodiscard]] const Gender& getGender() const;
 
-
-    friend std::ostream& operator<<(std::ostream& os, const Student& st)
-    {
-        os << st.name << " " << st.surname << " " << st.addres << " " << st.indexNumber << " "
-            << st.Pesel << " " << st.gender;
-        return os;
-    }
+    friend std::ostream& operator<<(std::ostream& os, const Student& st);
 
 private:
     std::string name;
     std::string surname;
     std::string addres;
     int indexNumber;
-    std::string Pesel;
+    std::string pesel;
     Gender gender;
 };

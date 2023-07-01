@@ -1,34 +1,57 @@
 #include "Database.hpp"
-#include "Utils.hpp"
 #include <iostream>
 #include <string>
 #include <algorithm>
 #include <ranges>
+#include "Utils.hpp"
+
+// void Database::add(const Student& student)
+// {
+//     if (std::find_if(students.begin(), students.end(), [&](const Student& s)
+//         {
+//             return s == student;
+//         }) == students.end())
+//     {
+//         students.push_back(student);
+//     }
+// }
 
 void Database::add(const Student& student)
 {
-    if (not students.empty() or not Utils::hasDuplicates(students))
+    if (std::ranges::find(students, student) == students.end())
     {
         students.push_back(student);
     }
 }
 
-void Database::add(Student&& s)
+void Database::add(Student&& student)
 {
-    students.push_back(s);
+    if (std::ranges::find(students, student) == students.end())
+    {
+        students.push_back(std::move(student));
+    }
 }
 
-std::vector<Student> Database::show() const
+void Database::printByGender(Gender gender) const
 {
-    std::vector<Student> result{};
+    for (auto student : students)
+    {
+        if (student.getGender() == gender)
+        {
+            std::cout << student.show() << std::endl;
+        }
+    }
+}
+
+void Database::show() const
+{
     for (const auto& student : students)
     {
-        result.push_back(student);
+        Utils::printStudent(student);
     }
-    Utils::print(result);
-
-    return result;
 }
+
+
 
 bool Database::searchByPesel(const std::string& pesel)
 {
@@ -50,4 +73,4 @@ bool Database::searchByIndex(int index)
     return std::ranges::find(students, index, &Student::getIndex) != students.end();
 }
 
-std::size_t Database::getNumberOfStudents() const { return students.size(); };
+std::size_t Database::getSize() const { return students.size(); };

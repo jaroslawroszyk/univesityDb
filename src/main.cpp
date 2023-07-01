@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Student.hpp"
 #include "Database.hpp"
-#include "Utils.hpp"
 
 int main()
 {
@@ -12,7 +11,7 @@ int main()
             "none",
             1111,
             "24142",
-            Gender::None
+            Gender::Other
     };
     Student Ania{
             "Ania",
@@ -22,12 +21,10 @@ int main()
             "1695678912",
             Gender::Female
     };
-    db.initDatabase(db, Ania, none);
-    //    db.initDatabase(db,none);
-    //db.add(Ania);
-    //db.add(none);
-    //std::cout << db.show();
-    std::cout << std::boolalpha << db.searchByName("none");
-    //    auto it = db.show();
-    //    print(it);
+    db.add(Ania);
+    db.add(none);
+    db.printByGender(Gender::Other);
+    // // db.show();
+    // db.deleteByIndex(1111);
+    // db.show();
 }

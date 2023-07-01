@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
-#include "PeselChecker.hpp"
+#include "Utils.hpp"
 #include <tuple>
+using namespace Utils;
 
 struct PeselFixture : public ::testing::TestWithParam<std::tuple<std::string, bool>>
 {
@@ -9,7 +10,7 @@ struct PeselFixture : public ::testing::TestWithParam<std::tuple<std::string, bo
 TEST_P(PeselFixture, isCorrectPesel)
 {
     auto [pesel, expected] = GetParam();
-    EXPECT_EQ(checkPesel(pesel), expected);
+    EXPECT_EQ(Utils::checkPesel(pesel), expected);
 }
 
 INSTANTIATE_TEST_SUITE_P(
