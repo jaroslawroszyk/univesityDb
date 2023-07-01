@@ -1,30 +1,29 @@
 cmake_minimum_required(VERSION 3.23.2)
 project(studentDb)
-set(CMAKE_CXX_STANDARD 20)
 
-set(HEADERS
-        include/database.hpp
-        include/Gender.hpp
-        include/PeselChecker.hpp
-        include/student.hpp
-        )
+set(CMAKE_CXX_STANDARD 20)
+set(FLAGS -Wall -Wextra -Werror -Wpedantic)
 
 set(SOURCES
 src/database.cpp 
 src/student.cpp
 src/PeselChecker.cpp)
 
-set(FLAGS -Wall -Wextra -Werror -Wpedantic)
+set(COMMON_INCLUDES ${PROJECT_SOURCE_DIR}/include)
 
-add_executable(${PROJECT_NAME} ${SOURCES} src/main.cpp src/database.cpp src/student.cpp)
-target_compile_options(${PROJECT_NAME} PUBLIC ${FLAGS})
+include_directories(${COMMON_INCLUDES})
 
-find_package(GTest REQUIRED)
+add_library(project1_lib ${SRC_FILES} ${SOURCES})
+add_executable(project1 ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
-add_library(${MODULE_NAME} STATIC ${SOURCES} ${HEADERS}) 
+target_link_libraries(project1 project1_lib ${FLAGS})
 
-add_executable(${PROJECT_NAME}-ut  ${SOURCES} uts/ut.cpp)
-target_compile_options(${PROJECT_NAME}-ut PRIVATE ${FLAGS})
-target_link_libraries(${PROJECT_NAME}-ut  GTest::gmock GTest::gmock_main
-        GTest::gtest GTest::gtest_main
-)
+add_subdirectory(./googletest)
+enable_testing()
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+
+file(GLOB TEST_SRC_FILES ${PROJECT_SOURCE_DIR}/uts/*.cpp)
+
+add_executable(runUnitTests ${TEST_SRC_FILES})
+
+target_link_libraries(runUnitTests gtest gtest_main project1_lib)
