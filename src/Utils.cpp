@@ -6,14 +6,6 @@
 
 namespace Utils
 {
-    // template <typename T>
-    // void print(const T& vec)
-    // {
-    //     for (const auto& el : vec)
-    //     {
-    //         std::cout << el << ' ';
-    //     }
-    // }
 
     inline void print(const Student& student, std::ostream& os)
     {

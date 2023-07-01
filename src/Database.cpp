@@ -5,17 +5,6 @@
 #include <ranges>
 #include "Utils.hpp"
 
-// void Database::add(const Student& student)
-// {
-//     if (std::find_if(students.begin(), students.end(), [&](const Student& s)
-//         {
-//             return s == student;
-//         }) == students.end())
-//     {
-//         students.push_back(student);
-//     }
-// }
-
 void Database::add(const Student& student)
 {
     if (std::ranges::find(students, student) == students.end())
@@ -51,7 +40,20 @@ void Database::show() const
     }
 }
 
+bool Database::deleteByIndex(int index)
+{
+    auto it = std::find_if(students.begin(), students.end(), [index](const Student& student)
+        {
+            return student.getIndex() == index;
+        });
 
+    if (it != students.end())
+    {
+        students.erase(it);
+        return true;
+    }
+    return false;
+}
 
 bool Database::searchByPesel(const std::string& pesel)
 {
