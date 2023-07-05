@@ -1,8 +1,7 @@
 #pragma once
-#include <vector>
-#include <iostream>
 #include "Student.hpp"
 #include <string>
+#include <vector>
 
 namespace Utils
 {
@@ -14,5 +13,7 @@ namespace Utils
 
     void printStudent(const Student& s);
 
+
+    std::string trim(const std::string& str);
 
 } // namespace Utils

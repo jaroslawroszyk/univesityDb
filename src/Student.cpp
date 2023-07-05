@@ -1,6 +1,6 @@
-#include <tuple>
-#include "Student.hpp"
 #include "Gender.hpp"
+#include "Student.hpp"
+#include <tuple>
 
 Student::Student(
     std::string name,
@@ -33,7 +33,7 @@ bool Student::operator==(const Student&& other) const
 
 const std::string& Student::getName() const { return name; }
 const std::string& Student::getSurname() const { return surname; }
-const std::string& Student::getAdress() const { return addres; }
+const std::string& Student::getAddress() const { return addres; }
 int Student::getIndex() const { return indexNumber; }
 const std::string& Student::getPesel() const { return pesel; }
 const Gender& Student::getGender() const { return gender; }

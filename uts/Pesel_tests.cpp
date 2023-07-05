@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "Utils.hpp"
+#include <gtest/gtest.h>
 #include <tuple>
 using namespace Utils;
 

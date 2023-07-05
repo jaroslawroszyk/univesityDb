@@ -1,30 +1,43 @@
-#include <iostream>
 #include "Student.hpp"
 #include "Database.hpp"
+#include "FileHandler.hpp"
+#include <iostream>
 
-int main()
+int main(int argc, char* argv[])
 {
-    Database db;
-    Student none{
-            "none",
-            "none",
-            "none",
-            1111,
-            "24142",
-            Gender::Other
-    };
-    Student Ania{
-            "Ania",
-            "Kos",
-            "ul.Bogatynska 12 00-201 Radom",
-            6951,
-            "1695678912",
-            Gender::Female
-    };
-    db.add(Ania);
-    db.add(none);
-    db.printByGender(Gender::Other);
-    // // db.show();
-    // db.deleteByIndex(1111);
-    // db.show();
+        if (argc < 2)
+        {
+                std::cout << "Usage: ./studentDb --write or ./studentDb --read" << std::endl;
+                return 0;
+        }
+
+        Database db;
+
+        if (std::string(argv[1]) == "--write")
+        {
+                FileHandler fileHandler("students.csv", Mode::Write);
+                Student none{
+                    "none",
+                    "none",
+                    "n2one",
+                    1111,
+                    "24142",
+                    Gender::Nonbinary
+                };
+                db.add(none);
+                fileHandler.writeToCsvFile(db);
+                db.show();
+        }
+        else if (std::string(argv[1]) == "--read")
+        {
+                FileHandler fileHandler("students.csv", Mode::Read);
+                fileHandler.readDbFromFile(db);
+                db.show();
+        }
+        else
+        {
+                std::cout << "Invalid command. Usage: ./studentDb --write or ./studentDb --read" << std::endl;
+        }
+
+        return 0;
 }
