@@ -27,15 +27,6 @@ namespace Utils
         std::cout << "gender " << s.getGender() << std::endl;
         std::cout << "-----------------------------------\n";
     }
-    inline void print2(const Student& student, std::ostream& os)
-    {
-        os << "Name: " << student.getName() << std::endl;
-        os << "Surname: " << student.getSurname() << std::endl;
-        os << "Address: " << student.getAddress() << std::endl;
-        os << "Index: " << student.getIndex() << std::endl;
-        os << "Gender: " << student.getGender() << std::endl;
-        os << "-------------------------" << std::endl;
-    }
 
     bool checkPesel(std::string pesel)
     {
