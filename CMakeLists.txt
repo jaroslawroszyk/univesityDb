@@ -8,6 +8,7 @@ set(SOURCES
   src/Database.cpp 
   src/Student.cpp
   src/Utils.cpp
+  src/FileHandler.cpp
 )
 
 set(COMMON_INCLUDES ${PROJECT_SOURCE_DIR}/include)

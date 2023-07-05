@@ -43,3 +43,17 @@ inline const char* GenderToString(Gender e)
     }
     return "Ops";
 }
+
+inline Gender StringToGender(const std::string& str)
+{
+    if (str == "Male")
+        return Gender::Male;
+    else if (str == "Female")
+        return Gender::Female;
+    else if (str == "Nonbinary")
+        return Gender::Nonbinary;
+    else if (str == "Other")
+        return Gender::Other;
+    else
+        throw std::runtime_error("Invalid gender string");
+}

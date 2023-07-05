@@ -1,8 +1,8 @@
-#include "Utils.hpp"
-#include <vector>
-#include <iostream>
 #include "Student.hpp"
+#include "Utils.hpp"
+#include <iostream>
 #include <string>
+#include <vector>
 
 namespace Utils
 {
@@ -11,7 +11,7 @@ namespace Utils
     {
         os << "Name: " << student.getName() << std::endl;
         os << "Surname: " << student.getSurname() << std::endl;
-        os << "Address: " << student.getAdress() << std::endl;
+        os << "Address: " << student.getAddress() << std::endl;
         os << "Index: " << student.getIndex() << std::endl;
         os << "Gender: " << student.getGender() << std::endl;
         os << "-------------------------" << std::endl;
@@ -21,7 +21,7 @@ namespace Utils
         std::cout << "-----------------------------------\n";
         std::cout << "Name " << s.getName() << std::endl;
         std::cout << "surname " << s.getSurname() << std::endl;
-        std::cout << "addres " << s.getAdress() << std::endl;
+        std::cout << "addres " << s.getAddress() << std::endl;
         std::cout << "indexNumber " << s.getIndex() << std::endl;
         std::cout << "pesel " << s.getPesel() << std::endl;
         std::cout << "gender " << s.getGender() << std::endl;
@@ -31,7 +31,7 @@ namespace Utils
     {
         os << "Name: " << student.getName() << std::endl;
         os << "Surname: " << student.getSurname() << std::endl;
-        os << "Address: " << student.getAdress() << std::endl;
+        os << "Address: " << student.getAddress() << std::endl;
         os << "Index: " << student.getIndex() << std::endl;
         os << "Gender: " << student.getGender() << std::endl;
         os << "-------------------------" << std::endl;
@@ -57,5 +57,16 @@ namespace Utils
         return controlDigit == lastDigit;
     }
 
+    std::string trim(const std::string& str)
+    {
+        auto start = str.find_first_not_of(" \t\n\r\f\v");
+
+        auto end = str.find_last_not_of(" \t\n\r\f\v");
+
+        if (start == std::string::npos)
+            return "";
+
+        return str.substr(start, end - start + 1);
+    }
 
 } // namespace Utils

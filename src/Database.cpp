@@ -1,9 +1,10 @@
 #include "Database.hpp"
-#include <iostream>
-#include <string>
+#include "Gender.hpp"
+#include "Utils.hpp"
 #include <algorithm>
 #include <ranges>
-#include "Utils.hpp"
+#include <string>
+#include <vector>
 
 void Database::add(const Student& student)
 {
@@ -76,3 +77,6 @@ bool Database::searchByIndex(int index)
 }
 
 std::size_t Database::getSize() const { return students.size(); };
+
+
+

@@ -1,7 +1,7 @@
-#include <gtest/gtest.h>
 #include "Database.hpp"
 #include "Student.hpp"
 #include "Utils.hpp"
+#include <gtest/gtest.h>
 
 namespace
 {
@@ -32,7 +32,7 @@ namespace
     }
 
     Student Ania{
-        "Aneta",
+        "Ania",
         "Kos",
         "ul.Bogatynska 12 00-201 Radom",
         6951,

@@ -4,10 +4,12 @@
 #include "Gender.hpp"
 #include <vector>
 #include <algorithm>
+#include <string_view>
 
-class Database
+class Database final
 {
 public:
+    Database() = default;
     void add(const Student&);
     void add(Student&&);
     void show() const;
@@ -27,6 +29,10 @@ public:
         (db.add(stud), ...);
     }
 
+    auto getStudents() const
+    {
+        return students;
+    }
 private:
     std::vector<Student> students;
 };
