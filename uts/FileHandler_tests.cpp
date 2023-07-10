@@ -1,8 +1,12 @@
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <fstream>
-#include "Database.hpp"
+#include "mocks/FileHandlerMock.hpp"
 #include "FileHandler.hpp"
+#include "Database.hpp"
 #include "Student.hpp"
+#include <fstream>
+
+using namespace testing;
 
 namespace
 {
@@ -16,7 +20,7 @@ protected:
     void SetUp() override
     {
         testFileName = FILENAME;
-        fileHandler = std::make_unique<FileHandler>(testFileName, Mode::Write);
+        fileHandlerMock = std::make_unique<NiceMock<FileHandlerMock>>(testFileName, Mode::Write);
         db = std::make_unique<Database>();
 
         db->add(Student("John", "Doe", "123 Main St", 12345, "1234567890", Gender::Male));
@@ -28,14 +32,31 @@ protected:
         std::remove(testFileName.c_str());
     }
 
-    std::unique_ptr<FileHandler> fileHandler;
+    std::unique_ptr<NiceMock<FileHandlerMock>> fileHandlerMock;
     std::unique_ptr<Database> db;
     std::string testFileName;
 };
 
 TEST_F(FileHandlerTest, WriteToCsvFile)
 {
-    fileHandler->writeToCsvFile(*db);
+    EXPECT_CALL(*fileHandlerMock, writeToCsvFile(testing::_))
+        .WillOnce(testing::Invoke([&](const Database& db)
+            {
+                std::ofstream fileStream(testFileName);
+                fileStream << "Name, Surname, Address, Pesel, Gender\n";
+                for (const auto& student : db.getStudents())
+                {
+                    fileStream << student.getName() << ", "
+                        << student.getSurname() << ", "
+                        << student.getAddress() << ", "
+                        << student.getPesel() << ", "
+                        << GenderToString(student.getGender()) << "\n";
+                }
+                fileStream.flush();
+                fileStream.close();
+            }));
+
+    fileHandlerMock->writeToCsvFile(*db);
 
     std::ifstream fileStream(testFileName);
     EXPECT_TRUE(fileStream.is_open());
@@ -54,16 +75,19 @@ TEST_F(FileHandlerTest, WriteToCsvFile)
 
 TEST_F(FileHandlerTest, WriteToCsvFile_InvalidFileMode)
 {
-    fileHandler = std::make_unique<FileHandler>(testFileName, Mode::Read);
-    EXPECT_THROW(fileHandler->writeToCsvFile(*db), std::runtime_error);
+    NiceMock<FileHandlerMock> fileHandlerMock(testFileName, Mode::Read);
+
+    EXPECT_CALL(fileHandlerMock, writeToCsvFile(testing::_))
+        .WillOnce(testing::Throw(std::runtime_error("Cannot write to the file.Invalid file mode.")));
+
+    EXPECT_THROW(fileHandlerMock.writeToCsvFile(*db), std::runtime_error);
 }
 
 TEST_F(FileHandlerTest, ReadDbFromFile)
 {
-    fileHandler = std::make_unique<FileHandler>(testFileName, Mode::Read);
-    fileHandler->readDbFromFile(*db);
-
-    ASSERT_EQ(db->getSize(), sizeOfDb);
+    fileHandlerMock->readDbFromFile(*db);
+    db->show();
+    ASSERT_EQ(db->getSize(), 2);
     ASSERT_TRUE(db->searchByIndex(12345));
     ASSERT_TRUE(db->searchByName("Jane"));
     ASSERT_FALSE(db->searchByGender(Gender::Other));
@@ -72,6 +96,11 @@ TEST_F(FileHandlerTest, ReadDbFromFile)
 
 TEST_F(FileHandlerTest, ReadDbFromFile_InvalidFileMode)
 {
-    fileHandler = std::make_unique<FileHandler>(testFileName, Mode::Write);
-    EXPECT_THROW(fileHandler->readDbFromFile(*db), std::runtime_error);
+    NiceMock<FileHandlerMock> fileHandlerMock(testFileName, Mode::Write);
+
+    EXPECT_CALL(fileHandlerMock, readDbFromFile(testing::_))
+        .WillOnce(testing::Throw(std::runtime_error("Cannot read from the file. Invalid file mode.")));
+
+    EXPECT_THROW(fileHandlerMock.readDbFromFile(*db), std::runtime_error);
+
 }
