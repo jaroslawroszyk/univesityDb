@@ -18,7 +18,7 @@ include_directories(${COMMON_INCLUDES})
 add_library(${PROJECT_NAME}_lib ${SOURCES})
 
 add_executable(${PROJECT_NAME} src/main.cpp)
-target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib ${FLAGS} Boost::serialization)  # Dodanie Boost::serialization
+target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib ${FLAGS})
 
 add_subdirectory(googletest)
 enable_testing()
