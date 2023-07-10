@@ -4,8 +4,6 @@ project(studentDb)
 set(CMAKE_CXX_STANDARD 20)
 set(FLAGS -Wall -Wextra -Werror -Wpedantic)
 
-find_package(Boost REQUIRED COMPONENTS serialization)
-
 set(SOURCES
   src/Database.cpp 
   src/Student.cpp
