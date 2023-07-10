@@ -4,6 +4,8 @@ project(studentDb)
 set(CMAKE_CXX_STANDARD 20)
 set(FLAGS -Wall -Wextra -Werror -Wpedantic)
 
+find_package(Boost REQUIRED COMPONENTS serialization)
+
 set(SOURCES
   src/Database.cpp 
   src/Student.cpp
@@ -18,7 +20,7 @@ include_directories(${COMMON_INCLUDES})
 add_library(${PROJECT_NAME}_lib ${SOURCES})
 
 add_executable(${PROJECT_NAME} src/main.cpp)
-target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib ${FLAGS})
+target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib ${FLAGS} Boost::serialization)  # Dodanie Boost::serialization
 
 add_subdirectory(googletest)
 enable_testing()

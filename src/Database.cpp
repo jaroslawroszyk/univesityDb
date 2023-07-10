@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-void Database::add(const Student& student)
+auto Database::add(const Student& student) -> void
 {
     if (std::ranges::find(students, student) == students.end())
     {
@@ -14,7 +14,7 @@ void Database::add(const Student& student)
     }
 }
 
-void Database::add(Student&& student)
+auto Database::add(Student&& student) -> void
 {
     if (std::ranges::find(students, student) == students.end())
     {
@@ -22,7 +22,7 @@ void Database::add(Student&& student)
     }
 }
 
-void Database::printByGender(Gender gender) const
+auto Database::printByGender(Gender gender) const -> void
 {
     for (auto student : students)
     {
@@ -33,7 +33,7 @@ void Database::printByGender(Gender gender) const
     }
 }
 
-void Database::show() const
+auto Database::show() const -> void
 {
     for (const auto& student : students)
     {
@@ -41,7 +41,7 @@ void Database::show() const
     }
 }
 
-bool Database::deleteByIndex(int index)
+auto Database::deleteByIndex(int index) -> bool
 {
     auto it = std::find_if(students.begin(), students.end(), [index](const Student& student)
         {
@@ -56,27 +56,29 @@ bool Database::deleteByIndex(int index)
     return false;
 }
 
-bool Database::searchByPesel(const std::string& pesel)
+auto Database::searchByPesel(const std::string& pesel) const -> bool
 {
     return std::ranges::find(students, pesel, &Student::getPesel) != students.end();
 }
 
-bool Database::searchByName(const std::string& name)
+auto Database::searchByName(const std::string& name) const -> bool
 {
     return std::ranges::find(students, name, &Student::getName) != students.end();
 }
 
-bool Database::searchBySurname(const std::string& surname) const
+auto Database::searchBySurname(const std::string& surname) const -> bool
 {
     return std::ranges::find(students, surname, &Student::getSurname) != students.end();
 }
 
-bool Database::searchByIndex(int index)
+auto Database::searchByIndex(int index) const -> bool
 {
     return std::ranges::find(students, index, &Student::getIndex) != students.end();
 }
 
-std::size_t Database::getSize() const { return students.size(); };
+auto Database::searchByGender(const Gender& gender) const -> bool
+{
+    return std::ranges::find(students, gender, &Student::getGender) != students.end();
+}
 
-
-
+auto Database::getSize() const -> std::size_t { return students.size(); };

@@ -10,23 +10,29 @@ class Database final
 {
 public:
     Database() = default;
-    void add(const Student&);
-    void add(Student&&);
-    void show() const;
-    void printByGender(Gender) const;
+    auto add(const Student&) -> void;
+    auto add(Student&&) -> void;
+    auto show() const -> void;
+    auto printByGender(Gender) const -> void;
+    template<typename... Args>
+    auto addStudents(Args&&... students) -> void
+    {
+        (add(std::forward<Args>(students)), ...);
+    }
 
     std::size_t getSize() const;
-    bool searchByName(const std::string&);
-    bool searchBySurname(const std::string&) const;
-    bool searchByIndex(int);
-    bool searchByPesel(const std::string&);
+    auto searchByName(const std::string&) const->bool;
+    auto searchBySurname(const std::string&) const->bool;
+    auto searchByIndex(int) const->bool;
+    auto searchByPesel(const std::string&) const->bool;
+    auto searchByGender(const Gender&) const->bool;
 
-    bool deleteByIndex(int);
+    auto deleteByIndex(int) -> bool;
 
     template<typename ... Students>
-    void initDatabase(Database& db, Students &...stud)
+    auto initDatabase(Database& db, Students &...students) -> void
     {
-        (db.add(stud), ...);
+        (db.add(students), ...);
     }
 
     auto getStudents() const

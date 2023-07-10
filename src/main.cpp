@@ -24,8 +24,17 @@ int main(int argc, char* argv[])
                     "24142",
                     Gender::Nonbinary
                 };
-                db.add(none);
+                Student Men{
+                    "Men",
+                    "Men",
+                    "Men",
+                    222,
+                    "2131",
+                    Gender::Male
+                };
+                db.addStudents(none, Men);
                 fileHandler.writeToCsvFile(db);
+                // db.show();
                 db.show();
         }
         else if (std::string(argv[1]) == "--read")

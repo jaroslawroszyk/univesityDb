@@ -5,6 +5,7 @@
 #include <algorithm> 
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 
 FileHandler::FileHandler(const std::string& filename, Mode mode)
     : filename(filename), fileMode(mode)
@@ -31,7 +32,7 @@ FileHandler::~FileHandler()
         fileReadStream.close();
 }
 
-void FileHandler::writeToCsvFile(const Database& db)
+auto FileHandler::writeToCsvFile(const Database& db) -> void
 {
     if (fileMode != Mode::Write)
         throw std::runtime_error{ "Cannot write to the file. Invalid file mode." };
@@ -45,9 +46,10 @@ void FileHandler::writeToCsvFile(const Database& db)
             << student.getPesel() << ", "
             << GenderToString(student.getGender()) << "\n";
     }
+    fileStream.flush();
 }
 
-void FileHandler::readDbFromFile(Database& db)
+auto FileHandler::readDbFromFile(Database& db) -> void
 {
     if (fileMode != Mode::Read)
         throw std::runtime_error{ "Cannot read from the file. Invalid file mode." };

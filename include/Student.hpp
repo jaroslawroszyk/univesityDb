@@ -9,22 +9,22 @@ class Student
 public:
     Student(std::string, std::string, std::string, int, std::string, Gender);
 
-    bool operator==(const Student& other) const;
-    bool operator==(const Student&& other) const;
-    [[nodiscard]] std::string show() const;
-    [[nodiscard]] const std::string& getName() const;
-    [[nodiscard]] const std::string& getSurname() const;
-    [[nodiscard]] const std::string& getAddress() const;
-    [[nodiscard]] int getIndex() const;
-    [[nodiscard]] const std::string& getPesel() const;
-    [[nodiscard]] const Gender& getGender() const;
+    auto operator==(const Student& other) const -> bool;
+    auto operator==(const Student&& other) const -> bool;
+    [[nodiscard]] auto show() const->std::string;
+    [[nodiscard]] auto getName() const ->const std::string&;
+    [[nodiscard]] auto getSurname() const ->const std::string&;
+    [[nodiscard]] auto getAddress() const ->const std::string&;
+    [[nodiscard]] auto getIndex() const -> int;
+    [[nodiscard]] auto getPesel() const -> const std::string&;
+    [[nodiscard]] auto getGender() const -> const Gender&;
 
-    friend std::ostream& operator<<(std::ostream& os, const Student& st);
+    friend auto operator<<(std::ostream&, const Student&)->std::ostream&;
 
 private:
     std::string name;
     std::string surname;
-    std::string addres;
+    std::string address;
     int indexNumber;
     std::string pesel;
     Gender gender;

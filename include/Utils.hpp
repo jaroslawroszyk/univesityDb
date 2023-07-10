@@ -5,12 +5,12 @@
 
 namespace Utils
 {
-    inline void print(const Student& student, std::ostream& os);
+    inline auto print(const Student&, std::ostream&) -> void;
 
-    bool checkPesel(std::string pesel);
+    auto checkPesel(std::string) -> bool;
 
-    void printStudent(const Student& s);
+    auto printStudent(const Student&) -> void;
 
-    std::string trim(const std::string& str);
+    auto trim(const std::string&) -> std::string;
 
 } // namespace Utils

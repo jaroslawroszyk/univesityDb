@@ -9,7 +9,7 @@ enum class Gender
     Other
 };
 
-inline std::ostream& operator<<(std::ostream& os, Gender gender)
+inline auto operator<<(std::ostream& os, Gender gender) -> std::ostream&
 {
     switch (gender)
     {
@@ -26,9 +26,9 @@ inline std::ostream& operator<<(std::ostream& os, Gender gender)
     }
 }
 
-inline const char* GenderToString(Gender e)
+inline auto GenderToString(Gender gender) -> const char*
 {
-    switch (e)
+    switch (gender)
     {
     case Gender::Male:
         return "Male";
@@ -44,7 +44,7 @@ inline const char* GenderToString(Gender e)
     return "Ops";
 }
 
-inline Gender StringToGender(const std::string& str)
+inline auto StringToGender(const std::string& str) -> Gender
 {
     if (str == "Male")
         return Gender::Male;

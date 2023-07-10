@@ -7,7 +7,7 @@
 namespace Utils
 {
 
-    inline void print(const Student& student, std::ostream& os)
+    inline auto print(const Student& student, std::ostream& os) -> void
     {
         os << "Name: " << student.getName() << std::endl;
         os << "Surname: " << student.getSurname() << std::endl;
@@ -16,19 +16,20 @@ namespace Utils
         os << "Gender: " << student.getGender() << std::endl;
         os << "-------------------------" << std::endl;
     }
-    void printStudent(const Student& s)
+
+    auto printStudent(const Student& s) -> void
     {
         std::cout << "-----------------------------------\n";
         std::cout << "Name " << s.getName() << std::endl;
         std::cout << "surname " << s.getSurname() << std::endl;
-        std::cout << "addres " << s.getAddress() << std::endl;
+        std::cout << "address " << s.getAddress() << std::endl;
         std::cout << "indexNumber " << s.getIndex() << std::endl;
         std::cout << "pesel " << s.getPesel() << std::endl;
         std::cout << "gender " << s.getGender() << std::endl;
         std::cout << "-----------------------------------\n";
     }
 
-    bool checkPesel(std::string pesel)
+    auto checkPesel(std::string pesel) -> bool
     {
         if (pesel.size() != 11)
             return false;
@@ -48,7 +49,7 @@ namespace Utils
         return controlDigit == lastDigit;
     }
 
-    std::string trim(const std::string& str)
+    auto trim(const std::string& str) -> std::string
     {
         auto start = str.find_first_not_of(" \t\n\r\f\v");
 

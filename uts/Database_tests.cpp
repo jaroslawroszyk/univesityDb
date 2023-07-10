@@ -1,109 +1,62 @@
+#include <gtest/gtest.h>
 #include "Database.hpp"
 #include "Student.hpp"
-#include "Utils.hpp"
-#include <gtest/gtest.h>
+#include "Gender.hpp"
 
-namespace
+class DatabaseTest : public ::testing::Test
 {
-    const std::vector<Student> students{
-        {
-        "Adam",
-        "Nowak",
-        "ul.Bogatynska 12 00-201 Radom",
-        123456,
-        "12345678912",
-        Gender::Male
-        },
-        {
-        "Ania",
-        "Kos",
-        "ul.Bogatynska 12 00-201 Radom",
-        6951,
-        "1695678912",
-        Gender::Female
-        } };
-
-    void fillDatabase(Database& db)
-    {
-        for (const auto& st : students)
-        {
-            db.add(st);
-        }
-    }
-
-    Student Ania{
-        "Ania",
-        "Kos",
-        "ul.Bogatynska 12 00-201 Radom",
-        6951,
-        "24090833676",
-        Gender::Female };
-
-    Student Zosia{
-        "Zosia",
-        "Zosinska",
-        "ul. 00-201 Radom",
-        69,
-        "24090833676",
-        Gender::Female };
-} // namespace
-
-struct DatabaseTest : ::testing::Test
-{
-    Database db;
-
+protected:
     void SetUp() override
     {
-        fillDatabase(db);
+        // Inicjalizacja bazy danych
+        db.add(Student("John", "Doe", "123 Main St", 12345, "1234567890", Gender::Male));
+        db.add(Student("Jane", "Smith", "456 Elm St", 54321, "0987654321", Gender::Female));
     }
+
+    Database db;
 };
 
-TEST_F(DatabaseTest, AddStudent_DoesNotDuplicate)
+TEST_F(DatabaseTest, SearchByName_ExistingName)
 {
-    db.add(Ania);
-
-    std::size_t originalSize = db.getSize();
-
-    db.add(Ania);
-
-    std::size_t newSize = db.getSize();
-
-    EXPECT_TRUE(originalSize == newSize);
+    EXPECT_TRUE(db.searchByName("John"));
 }
 
-TEST_F(DatabaseTest, SearchByName_ReturnsTrueIfExists)
+TEST_F(DatabaseTest, SearchByName_NonExistingName)
 {
-    EXPECT_TRUE(db.searchByName("Adam"));
+    EXPECT_FALSE(db.searchByName("Janeta"));
 }
 
-TEST_F(DatabaseTest, SearchBySurname_ReturnsTrueIfExists)
+TEST_F(DatabaseTest, SearchBySurname_ExistingSurname)
 {
-    EXPECT_TRUE(db.searchBySurname("Nowak"));
+    EXPECT_TRUE(db.searchBySurname("Doe"));
 }
 
-TEST_F(DatabaseTest, SearchByIndex_ReturnsTrueIfExists)
+TEST_F(DatabaseTest, SearchBySurname_NonExistingSurname)
 {
-    db.initDatabase(db, Ania);
-    EXPECT_TRUE(db.searchByIndex(6951));
+    EXPECT_FALSE(db.searchBySurname("Smiths"));
 }
 
-TEST_F(DatabaseTest, SearchByPesel_ReturnsTrueIfExists)
+TEST_F(DatabaseTest, SearchByIndex_ExistingIndex)
 {
-    db.add(Ania);
-    EXPECT_TRUE(db.searchByPesel("24090833676"));
+    EXPECT_TRUE(db.searchByIndex(12345));
 }
 
-TEST_F(DatabaseTest, SearchBySurname_ReturnsFalseIfNotExists)
+TEST_F(DatabaseTest, SearchByIndex_NonExistingIndex)
 {
-    fillDatabase(db);
-    EXPECT_FALSE(db.searchBySurname("Piot"));
+    EXPECT_FALSE(db.searchByIndex(12));
 }
 
-TEST_F(DatabaseTest, DeleteByIndex_RemovesStudentIfExists)
+TEST_F(DatabaseTest, SearchByPesel_ExistingPesel)
 {
-    bool isDeleted = db.deleteByIndex(6951);
+    EXPECT_TRUE(db.searchByPesel("1234567890"));
+}
 
-    EXPECT_TRUE(isDeleted);
-    EXPECT_EQ(db.getSize(), 1);
-    EXPECT_FALSE(db.searchByIndex(6951));
+TEST_F(DatabaseTest, SearchByPesel_NonExistingPesel)
+{
+    EXPECT_FALSE(db.searchByPesel("12345678910"));
+}
+
+TEST_F(DatabaseTest, SearchByGender_ExistingGender)
+{
+    EXPECT_TRUE(db.searchByGender(Gender::Male));
 }

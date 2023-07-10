@@ -5,42 +5,42 @@
 Student::Student(
     std::string name,
     std::string surname,
-    std::string addres,
+    std::string address,
     int indexNumber,
     std::string Pesel,
-    Gender gender) : name(name), surname(surname), addres(addres), indexNumber(indexNumber), pesel(Pesel)
+    Gender gender) : name(name), surname(surname), address(address), indexNumber(indexNumber), pesel(Pesel)
     , gender(gender)
 {
 }
 
-std::string Student::show() const
+auto Student::show() const -> std::string
 {
-    return name + " " + surname + "; " + addres + "; " + std::to_string(indexNumber) + "; " + pesel + "; " +
+    return name + " " + surname + "; " + address + "; " + std::to_string(indexNumber) + "; " + pesel + "; " +
         GenderToString(gender);
 }
 
-bool Student::operator==(const Student& other) const
+auto Student::operator==(const Student& other) const -> bool
 {
-    return std::tie(name, surname, addres, indexNumber, pesel, gender) ==
-        std::tie(other.name, other.surname, other.addres, other.indexNumber, other.pesel, other.gender);
+    return std::tie(name, surname, address, indexNumber, pesel, gender) ==
+        std::tie(other.name, other.surname, other.address, other.indexNumber, other.pesel, other.gender);
 }
 
-bool Student::operator==(const Student&& other) const
+auto Student::operator==(const Student&& other) const -> bool
 {
-    return std::tie(name, surname, addres, indexNumber, pesel, gender) ==
-        std::tie(other.name, other.surname, other.addres, other.indexNumber, other.pesel, other.gender);
+    return std::tie(name, surname, address, indexNumber, pesel, gender) ==
+        std::tie(other.name, other.surname, other.address, other.indexNumber, other.pesel, other.gender);
 }
 
-const std::string& Student::getName() const { return name; }
-const std::string& Student::getSurname() const { return surname; }
-const std::string& Student::getAddress() const { return addres; }
-int Student::getIndex() const { return indexNumber; }
-const std::string& Student::getPesel() const { return pesel; }
-const Gender& Student::getGender() const { return gender; }
+auto Student::getName() const -> const std::string& { return name; }
+auto Student::getSurname() const -> const std::string& { return surname; }
+auto Student::getAddress() const -> const std::string& { return address; }
+auto Student::getIndex() const -> int { return indexNumber; }
+auto Student::getPesel() const -> const std::string& { return pesel; }
+auto Student::getGender() const -> const Gender& { return gender; }
 
-std::ostream& operator<<(std::ostream& os, const Student& st)
+auto operator<<(std::ostream& os, const Student& student) -> std::ostream&
 {
-    os << st.name << " " << st.surname << " " << st.addres << " " << st.indexNumber << " "
-        << st.pesel << " " << st.gender;
+    os << student.name << " " << student.surname << " " << student.address << " " << student.indexNumber << " "
+        << student.pesel << " " << student.gender;
     return os;
 }

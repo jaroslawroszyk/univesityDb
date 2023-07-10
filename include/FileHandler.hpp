@@ -14,11 +14,11 @@ enum class Mode
 class FileHandler
 {
 public:
-    FileHandler(const std::string& filename, Mode mode);
+    FileHandler(const std::string&, Mode);
     ~FileHandler();
 
-    void writeToCsvFile(const Database& db);
-    void readDbFromFile(Database& db);
+    auto writeToCsvFile(const Database&) -> void;
+    auto readDbFromFile(Database&) -> void;
 
 private:
     std::ofstream fileStream;
