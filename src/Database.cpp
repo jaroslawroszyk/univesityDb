@@ -35,10 +35,7 @@ auto Database::printByGender(const Gender& gender) const -> void
 
 auto Database::show() const -> void
 {
-    for (const auto& student : students)
-    {
-        Utils::printStudent(student);
-    }
+    std::ranges::for_each(students, [](const auto& student) { Utils::printStudent(student); });
 }
 
 auto Database::deleteBySurname(const std::string& surname) -> bool

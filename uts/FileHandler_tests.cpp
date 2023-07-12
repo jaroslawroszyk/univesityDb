@@ -102,5 +102,4 @@ TEST_F(FileHandlerTest, ReadDbFromFile_InvalidFileMode)
         .WillOnce(testing::Throw(std::runtime_error("Cannot read from the file. Invalid file mode.")));
 
     EXPECT_THROW(fileHandlerMock.readDbFromFile(*db), std::runtime_error);
-
 }
