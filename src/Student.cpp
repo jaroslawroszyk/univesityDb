@@ -1,7 +1,6 @@
 #include "Gender.hpp"
 #include "Student.hpp"
 #include <tuple>
-#include <compare>
 
 Student::Student(
     std::string name,

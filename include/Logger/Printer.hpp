@@ -9,7 +9,6 @@ auto makePrintable(Args&&... args)
     return std::make_tuple(std::forward<Args>(args)...);
 }
 
-
 template <typename Container>
 auto makePrintable(const Container& container)
 {
