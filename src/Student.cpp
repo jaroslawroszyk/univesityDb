@@ -1,6 +1,7 @@
 #include "Gender.hpp"
 #include "Student.hpp"
 #include <tuple>
+#include <compare>
 
 Student::Student(
     std::string name,
@@ -17,18 +18,6 @@ auto Student::show() const -> std::string
 {
     return name + " " + surname + "; " + address + "; " + std::to_string(indexNumber) + "; " + pesel + "; " +
         GenderToString(gender);
-}
-
-auto Student::operator==(const Student& other) const -> bool
-{
-    return std::tie(name, surname, address, indexNumber, pesel, gender) ==
-        std::tie(other.name, other.surname, other.address, other.indexNumber, other.pesel, other.gender);
-}
-
-auto Student::operator==(const Student&& other) const -> bool
-{
-    return std::tie(name, surname, address, indexNumber, pesel, gender) ==
-        std::tie(other.name, other.surname, other.address, other.indexNumber, other.pesel, other.gender);
 }
 
 auto Student::getName() const -> const std::string& { return name; }

@@ -3,14 +3,15 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <compare>
+#include <tuple>
 
 class Student
 {
 public:
     Student(std::string, std::string, std::string, int, std::string, Gender);
 
-    auto operator==(const Student& other) const -> bool;
-    auto operator==(const Student&& other) const -> bool;
+    auto operator<=>(const Student& other) const = default;
     [[nodiscard]] auto show() const->std::string;
     [[nodiscard]] auto getName() const ->const std::string&;
     [[nodiscard]] auto getSurname() const ->const std::string&;

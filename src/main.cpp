@@ -1,6 +1,7 @@
 #include "Student.hpp"
 #include "Database.hpp"
 #include "FileHandler.hpp"
+#include "Logger/Printer.hpp"
 #include <iostream>
 
 int main(int argc, char* argv[])
@@ -11,31 +12,23 @@ int main(int argc, char* argv[])
                 return 0;
         }
 
-        Database db;
+        Database db{};
 
         if (std::string(argv[1]) == "--write")
         {
                 FileHandler fileHandler("students.csv", Mode::Write);
-                Student none{
-                    "none",
-                    "none",
-                    "n2one",
-                    1111,
-                    "24142",
-                    Gender::Nonbinary
-                };
-                Student Men{
-                    "Men",
-                    "Men",
-                    "Men",
-                    222,
-                    "2131",
-                    Gender::Male
-                };
+                Student none{ "John","Doe","123 Main St",12345,"1234567890",Gender::Male };
+                Student Men{ "Jane", "Smith", "456 Elm St", 54321, "0987654321", Gender::Female };
+
                 db.addStudents(none, Men);
+
                 fileHandler.writeToCsvFile(db);
-                // db.show();
+
+                // db.printByGender(Gender::Male);
+                std::vector<Student> students{ none,Men };
+                db.deleteByPesel(none.getPesel());
                 db.show();
+                // std::cout << makePrintable(students);
         }
         else if (std::string(argv[1]) == "--read")
         {

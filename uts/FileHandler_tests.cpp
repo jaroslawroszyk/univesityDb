@@ -29,7 +29,7 @@ protected:
 
     void TearDown() override
     {
-        std::remove(testFileName.c_str());
+        // std::remove(testFileName.c_str());
     }
 
     std::unique_ptr<NiceMock<FileHandlerMock>> fileHandlerMock;

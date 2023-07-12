@@ -4,12 +4,7 @@ project(studentDb)
 set(CMAKE_CXX_STANDARD 20)
 set(FLAGS -Wall -Wextra -Werror -Wpedantic)
 
-set(SOURCES
-  src/Database.cpp 
-  src/Student.cpp
-  src/Utils.cpp
-  src/FileHandler.cpp
-)
+set(SOURCES src/Database.cpp src/Student.cpp src/Utils.cpp src/FileHandler.cpp)
 
 set(COMMON_INCLUDES ${PROJECT_SOURCE_DIR}/include)
 
@@ -34,4 +29,7 @@ foreach(TEST_SRC_FILE ${TEST_SRC_FILES})
 endforeach()
 
 add_custom_target(pesel_test DEPENDS ${TEST_SRC_FILES})
-add_custom_target(ut_build COMMAND ${CMAKE_CTEST_COMMAND} DEPENDS ${TEST_SRC_FILES})
+add_custom_target(
+  ut_build
+  COMMAND ${CMAKE_CTEST_COMMAND}
+  DEPENDS ${TEST_SRC_FILES})

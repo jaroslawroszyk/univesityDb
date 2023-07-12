@@ -13,21 +13,23 @@ public:
     auto add(const Student&) -> void;
     auto add(Student&&) -> void;
     auto show() const -> void;
-    auto printByGender(Gender) const -> void;
+    auto printByGender(const Gender&) const -> void;
+
     template<typename... Args>
     auto addStudents(Args&&... students) -> void
     {
         (add(std::forward<Args>(students)), ...);
     }
 
-    std::size_t getSize() const;
     auto searchByName(const std::string&) const->bool;
     auto searchBySurname(const std::string&) const->bool;
     auto searchByIndex(int) const->bool;
     auto searchByPesel(const std::string&) const->bool;
     auto searchByGender(const Gender&) const->bool;
 
+    auto deleteBySurname(const std::string&) -> bool;
     auto deleteByIndex(int) -> bool;
+    auto deleteByPesel(const std::string&) -> bool;
 
     template<typename ... Students>
     auto initDatabase(Database& db, Students &...students) -> void
@@ -35,10 +37,9 @@ public:
         (db.add(students), ...);
     }
 
-    auto getStudents() const
-    {
-        return students;
-    }
+    std::size_t getSize() const;
+    auto getStudents() const->std::vector<Student>;
+
 private:
     std::vector<Student> students;
 };

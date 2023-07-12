@@ -22,15 +22,15 @@ auto Database::add(Student&& student) -> void
     }
 }
 
-auto Database::printByGender(Gender gender) const -> void
+auto Database::printByGender(const Gender& gender) const -> void
 {
-    for (auto student : students)
-    {
-        if (student.getGender() == gender)
+    std::ranges::for_each(students | std::views::filter([&](const auto& student)
         {
-            std::cout << student.show() << std::endl;
-        }
-    }
+            return student.getGender() == gender;
+        }), [](const auto& student)
+            {
+                std::cout << student.show() << std::endl;
+            });
 }
 
 auto Database::show() const -> void
@@ -41,6 +41,21 @@ auto Database::show() const -> void
     }
 }
 
+auto Database::deleteBySurname(const std::string& surname) -> bool
+{
+    auto it = std::find_if(students.begin(), students.end(), [surname](const Student& student)
+        {
+            return student.getSurname() == surname;
+        });
+
+    if (it != students.end())
+    {
+        students.erase(it);
+        return true;
+    }
+    return false;
+}
+
 auto Database::deleteByIndex(int index) -> bool
 {
     auto it = std::find_if(students.begin(), students.end(), [index](const Student& student)
@@ -48,6 +63,21 @@ auto Database::deleteByIndex(int index) -> bool
             return student.getIndex() == index;
         });
 
+    if (it != students.end())
+    {
+        students.erase(it);
+        return true;
+    }
+    return false;
+}
+
+
+auto Database::deleteByPesel(const std::string& pesel) -> bool
+{
+    auto it = std::find_if(students.begin(), students.end(), [pesel](const Student& student)
+        {
+            return student.getPesel() == pesel;
+        });
     if (it != students.end())
     {
         students.erase(it);
@@ -82,3 +112,7 @@ auto Database::searchByGender(const Gender& gender) const -> bool
 }
 
 auto Database::getSize() const -> std::size_t { return students.size(); };
+auto Database::getStudents() const -> std::vector<Student>
+{
+    return students;
+}
